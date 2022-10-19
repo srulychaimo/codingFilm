@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Form, Image, InputGroup, Row } from "react-bootstrap";
-import {
-  discoverMovies,
-  discoverTv,
-  imageURL,
-  searchMovies,
-} from "../service/tmdbApiService";
 import { useFormik } from "formik";
+import Message from "../components/common/Message";
+import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
 const TvScreen = () => {
   const [tvShows, setTvShows] = useState([]);
@@ -15,23 +11,29 @@ const TvScreen = () => {
 
   const navigate = useNavigate();
 
-  // const form = useFormik({
-  //   initialValues: {
-  //     inputValue: "",
-  //   },
-  //   onSubmit: ({ inputValue }) => {
-  //     const getSearched = async (query) => {
-  //       const resulet = await searchMovies(query);
-  //       setTvShows(resulet);
-  //     };
-  //     getSearched(inputValue);
-  //   },
-  // });
+  const form = useFormik({
+    initialValues: {
+      inputValue: "",
+    },
+    onSubmit: ({ inputValue }) => {
+      const getSearched = async (query) => {
+        const { results } = await getFromTmdb({
+          url: "/search/tv",
+          query: query,
+        });
+        setTvShows(results);
+      };
+      getSearched(inputValue);
+    },
+  });
 
   useEffect(() => {
     const getTvShows = async (activePage) => {
-      const resulet = await discoverTv(activePage);
-      setTvShows([...tvShows, ...resulet]);
+      const { results } = await getFromTmdb({
+        url: "/discover/tv",
+        page: activePage,
+      });
+      setTvShows([...tvShows, ...results]);
     };
 
     getTvShows(page);
@@ -60,11 +62,11 @@ const TvScreen = () => {
       <div className="bg-dark px-3">
         <Row className="justify-content-center">
           <Col md={6} lg={4}>
-            {/* <Form onSubmit={form.handleSubmit} autoComplete="off">
+            <Form onSubmit={form.handleSubmit} autoComplete="off">
               <InputGroup className="p-3">
                 <Form.Control
                   {...form.getFieldProps("inputValue")}
-                  placeholder="Movie Name"
+                  placeholder="Tv Show Name"
                 />
                 <Button
                   variant="outline-secondary"
@@ -74,7 +76,7 @@ const TvScreen = () => {
                   Search
                 </Button>
               </InputGroup>
-            </Form> */}
+            </Form>
           </Col>
         </Row>
         <Row className="justify-content-center py-5">
@@ -95,6 +97,11 @@ const TvScreen = () => {
               <p className="text-center text-white">{tvShow.name}</p>
             </Col>
           ))}
+          {!tvShows.length && (
+            <Col sm={10} md={5} lg={4}>
+              <Message variant="danger">No Tv Shows Found</Message>
+            </Col>
+          )}
         </Row>
         <Row className="justify-content-center py-3">
           <Col

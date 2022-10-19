@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Form, Image, InputGroup, Row } from "react-bootstrap";
-import {
-  discoverMovies,
-  imageURL,
-  searchMovies,
-} from "../service/tmdbApiService";
+
 import { useFormik } from "formik";
+import Message from "../components/common/Message";
+import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
 const MoviesScreen = () => {
   const [movies, setMovies] = useState([]);
@@ -20,8 +18,11 @@ const MoviesScreen = () => {
     },
     onSubmit: ({ inputValue }) => {
       const getSearched = async (query) => {
-        const resulet = await searchMovies(query);
-        setMovies(resulet);
+        const { results } = await getFromTmdb({
+          url: "/search/movie",
+          query: query,
+        });
+        setMovies(results);
       };
       getSearched(inputValue);
     },
@@ -29,8 +30,11 @@ const MoviesScreen = () => {
 
   useEffect(() => {
     const getMovies = async (activePage) => {
-      const resulet = await discoverMovies(activePage);
-      setMovies([...movies, ...resulet]);
+      const { results } = await getFromTmdb({
+        url: "/discover/movie",
+        page: activePage,
+      });
+      setMovies([...movies, ...results]);
     };
 
     getMovies(page);
@@ -94,6 +98,11 @@ const MoviesScreen = () => {
               <p className="text-center text-white">{movie.title}</p>
             </Col>
           ))}
+          {!movies.length && (
+            <Col sm={10} md={5} lg={4}>
+              <Message variant="danger">No Movies Found</Message>
+            </Col>
+          )}
         </Row>
         <Row className="justify-content-center py-3">
           <Col

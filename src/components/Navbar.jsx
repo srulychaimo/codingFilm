@@ -18,7 +18,10 @@ const Navbar = () => {
   return (
     <nav
       className="navbar navbar-expand-md navbar-dark fixed-top"
-      style={{ backgroundColor: navBgColor }}
+      style={{
+        backgroundColor: navBgColor,
+        transition: "background-color 1s ease",
+      }}
       aria-label="Fourth navbar example"
     >
       <div className="container-fluid">

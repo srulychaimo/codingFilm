@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
-import { getVideosById } from "../../service/tmdbApiService";
+
 import PlayTrailerButton from "./PlayTrailerButton";
 import { Link } from "react-router-dom";
 import { BiMoviePlay } from "react-icons/bi";
+import { getFromTmdb } from "../../api/tmdbApi";
 
 const SingleHeroSlideSizes = ({
   backgroundImage,
@@ -17,12 +18,13 @@ const SingleHeroSlideSizes = ({
 
   useEffect(() => {
     const getTrailer = async (id) => {
-      let trailer = await getVideosById(id);
-      const checkForTrailer = trailer.filter((obj) => obj?.type === "Trailer");
-      if (checkForTrailer.length) {
-        trailer = checkForTrailer;
+      let { results } = await getFromTmdb({ url: `/movie/${id}/videos` });
+      const checkForTrailer = results.find((obj) => obj?.type === "Trailer");
+      if (checkForTrailer) {
+        results = checkForTrailer;
+        return setTrailer(results?.key);
       }
-      setTrailer(trailer[0]?.key);
+      setTrailer(results[0]?.key);
     };
     getTrailer(movie.id);
   }, [movie]);

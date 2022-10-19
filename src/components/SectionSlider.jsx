@@ -1,14 +1,14 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/bundle";
-import { imageURL } from "../../service/tmdbApiService";
+import { imageURL } from "../api/tmdbApi";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-const SectionSlider = ({ movies, title }) => {
+const SectionSlider = ({ data, title, navigateTo }) => {
   const navigate = useNavigate();
   const handleClick = (id) => {
-    navigate(`/movies/${id}`);
+    navigate(`/${navigateTo}/${id}`);
   };
 
   const breakpoints = {
@@ -35,15 +35,16 @@ const SectionSlider = ({ movies, title }) => {
     <div className="pt-4 px-3 bg-dark text-white">
       <h3 className="mb-3">{title}</h3>
       <Swiper spaceBetween={10} breakpoints={breakpoints}>
-        {movies.map((movie) => {
-          const posterImg = `${imageURL}${movie?.poster_path}`;
-          return (
-            <SwiperSlide key={movie?.id} onClick={() => handleClick(movie.id)}>
-              <Image src={posterImg} fluid rounded />
-              <p className="text-center">{movie.title}</p>
-            </SwiperSlide>
-          );
-        })}
+        {data &&
+          data.map((item) => {
+            const posterImg = `${imageURL}${item?.poster_path}`;
+            return (
+              <SwiperSlide key={item?.id} onClick={() => handleClick(item?.id)}>
+                <Image src={posterImg} fluid rounded />
+                <p className="text-center">{item.title}</p>
+              </SwiperSlide>
+            );
+          })}
       </Swiper>
     </div>
   );

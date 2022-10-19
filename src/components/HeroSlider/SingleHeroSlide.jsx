@@ -1,4 +1,4 @@
-import { imageURL } from "../../service/tmdbApiService";
+import { imageURL } from "../../api/tmdbApi";
 import SingleHeroSlideSizes from "./SingleHeroSlideSizes";
 
 const SingleHeroSlide = ({ movie }) => {

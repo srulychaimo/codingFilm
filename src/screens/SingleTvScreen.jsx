@@ -6,36 +6,41 @@ import SectionSlider from "../components/SectionSlider";
 import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
-const MovieScreen = () => {
+const SingleTvScreen = () => {
   const { id } = useParams();
   const [info, setInfo] = useState({});
 
-  const backgroundImage = `${imageURL}${info.movie?.backdrop_path}`;
-  const posterImage = `${imageURL}${info.movie?.poster_path}`;
+  const backgroundImage = `${imageURL}${info.tv?.backdrop_path}`;
+  const posterImage = `${imageURL}${info.tv?.poster_path}`;
   const youTubeBaseURL = "http://www.youtube.com/watch?v=";
 
   useEffect(() => {
     const getDetails = async () => {
-      const res = await getFromTmdb({ url: `/movie/${id}` });
+      const tv = await getFromTmdb({ url: `/tv/${id}` });
       const { results: videos } = await getFromTmdb({
-        url: `/movie/${id}/videos`,
+        url: `/tv/${id}/videos`,
       });
+
       const trailer = videos.filter((obj) => obj?.type === "Trailer");
-      res.trailer = trailer[0]?.key;
-      const { cast } = await getFromTmdb({ url: `/movie/${id}/credits` });
+      if (trailer.length) {
+        tv.trailer = trailer[0]?.key;
+      } else {
+        tv.trailer = videos[0]?.key;
+      }
+      const { cast } = await getFromTmdb({ url: `/tv/${id}/credits` });
       const { results: similar } = await getFromTmdb({
-        url: `/movie/${id}/similar`,
+        url: `/tv/${id}/similar`,
       });
       const { results: recommendations } = await getFromTmdb({
-        url: `/movie/${id}/recommendations`,
+        url: `/tv/${id}/recommendations`,
       });
 
       setInfo({
-        movie: res,
-        videos: videos,
-        casts: cast,
-        similar: similar,
-        recommendations: recommendations,
+        tv,
+        videos,
+        cast,
+        similar,
+        recommendations,
       });
     };
     getDetails();
@@ -44,7 +49,7 @@ const MovieScreen = () => {
 
   return (
     <>
-      {info.movie && (
+      {info.tv && (
         <div
           className="min-vh-100 py-5"
           style={{
@@ -54,21 +59,21 @@ const MovieScreen = () => {
         >
           <Row className=" d-flex justify-content-center align-items-center text-white text-center min-vh-100 mx-5">
             <Col md={7} lg={8}>
-              <h1>{info.movie.title}</h1>
-              <p className="d-none d-md-block">{info.movie.overview}</p>
-              {info.movie.genres.length && (
+              <h1>{info.tv.name}</h1>
+              <p className="d-none d-md-block">{info.tv.overview}</p>
+              {info.tv.genres.length && (
                 <div className="d-none d-sm-block">
                   <h4 className="px-3 d-inline">Genres:</h4>
-                  {info.movie.genres.map((obj) => (
+                  {info.tv.genres.map((obj) => (
                     <div key={obj.id} className="myButton m-2">
                       {obj.name}
                     </div>
                   ))}
                 </div>
               )}
-              {info.movie.trailer && (
+              {info.tv.trailer && (
                 <div className="text-center">
-                  <PlayTrailerButton trailer={info.movie.trailer} />
+                  <PlayTrailerButton trailer={info.tv.trailer} />
                 </div>
               )}
             </Col>
@@ -102,10 +107,10 @@ const MovieScreen = () => {
           </Row>
         )}
 
-        {info.casts?.length > 0 && (
+        {info.cast?.length > 0 && (
           <SectionSlider
-            data={info?.casts.filter(
-              (cast) => (cast.poster_path = cast.profile_path)
+            data={info?.cast.filter(
+              (item) => (item.poster_path = item.profile_path)
             )}
             title="Casts"
           />
@@ -113,17 +118,17 @@ const MovieScreen = () => {
 
         {info.similar?.length > 0 && (
           <SectionSlider
-            data={info?.similar.filter((movie) => movie.poster_path)}
-            title="Similar Movies"
-            navigateTo="movies"
+            data={info?.similar.filter((tv) => tv.poster_path)}
+            title="Similar Tv Shows"
+            navigateTo="tv"
           />
         )}
 
         {info.recommendations?.length > 0 && (
           <SectionSlider
-            data={info?.recommendations.filter((movie) => movie.poster_path)}
-            title="Recommendations Movies"
-            navigateTo="movies"
+            data={info?.recommendations.filter((tv) => tv.poster_path)}
+            title="Recommendations Tv Shows"
+            navigateTo="tv"
           />
         )}
       </div>
@@ -131,4 +136,4 @@ const MovieScreen = () => {
   );
 };
 
-export default MovieScreen;
+export default SingleTvScreen;

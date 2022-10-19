@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
-import { getPopular } from "../../service/tmdbApiService";
 import SingleHeroSlide from "./SingleHeroSlide";
 import "swiper/css";
 import "swiper/css/bundle";
+import { getFromTmdb } from "../../api/tmdbApi";
 
 const HeroSlider = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
     const getMovies = async () => {
-      const resulet = await getPopular();
-      setMovies(resulet);
+      const { results } = await getFromTmdb({ url: "/movie/popular" });
+      setMovies(results);
     };
     getMovies();
   }, []);
