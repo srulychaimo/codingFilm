@@ -19,7 +19,7 @@ const SingleHeroSlide = ({ movie }) => {
         backgroundImage={posterImageURL}
         movie={movie}
         classOne="d-sm-none"
-        classTwo="container justify-content-center align-items-center text-white text-center min-vh-100"
+        classTwo="justify-content-center align-items-center text-white text-center min-vh-100 mx-1"
       />
     </>
   );

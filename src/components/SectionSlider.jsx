@@ -13,7 +13,7 @@ const SectionSlider = ({ data, title, navigateTo }) => {
 
   const breakpoints = {
     300: {
-      slidesPerView: 2,
+      slidesPerView: 2.5,
     },
     450: {
       slidesPerView: 3,
@@ -37,11 +37,13 @@ const SectionSlider = ({ data, title, navigateTo }) => {
       <Swiper spaceBetween={10} breakpoints={breakpoints}>
         {data &&
           data.map((item) => {
-            const posterImg = `${imageURL}${item?.poster_path}`;
+            const posterImg = `${imageURL}${
+              item?.poster_path || item?.profile_path
+            }`;
             return (
               <SwiperSlide key={item?.id} onClick={() => handleClick(item?.id)}>
                 <Image src={posterImg} fluid rounded />
-                <p className="text-center">{item.title}</p>
+                <p className="text-center">{item.title || item.name}</p>
               </SwiperSlide>
             );
           })}

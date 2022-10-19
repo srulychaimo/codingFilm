@@ -7,7 +7,7 @@ body {
   font-size: 15px;
   color: #fff;
   background-color: #db0000;
-  padding: 10px 30px;
+  padding: 0.45rem 0.8rem;
   border: solid #db0000 2px;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 50px;
@@ -17,7 +17,7 @@ body {
 
 .btn:hover {
   transition: 1000ms;
-  padding: 10px 50px;
+  padding: 0.8rem 1.2rem;
   transform: translateY(-0px);
   background-color: #fff;
   color: #db0000;

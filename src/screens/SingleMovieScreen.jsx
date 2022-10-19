@@ -32,10 +32,10 @@ const MovieScreen = () => {
 
       setInfo({
         movie: res,
-        videos: videos,
-        casts: cast,
-        similar: similar,
-        recommendations: recommendations,
+        videos,
+        cast,
+        similar,
+        recommendations,
       });
     };
     getDetails();
@@ -102,16 +102,14 @@ const MovieScreen = () => {
           </Row>
         )}
 
-        {info.casts?.length > 0 && (
+        {info.cast?.length && (
           <SectionSlider
-            data={info?.casts.filter(
-              (cast) => (cast.poster_path = cast.profile_path)
-            )}
+            data={info?.cast.filter((cast) => cast.profile_path)}
             title="Casts"
           />
         )}
 
-        {info.similar?.length > 0 && (
+        {info.similar?.length && (
           <SectionSlider
             data={info?.similar.filter((movie) => movie.poster_path)}
             title="Similar Movies"
@@ -119,7 +117,7 @@ const MovieScreen = () => {
           />
         )}
 
-        {info.recommendations?.length > 0 && (
+        {info.recommendations?.length && (
           <SectionSlider
             data={info?.recommendations.filter((movie) => movie.poster_path)}
             title="Recommendations Movies"
