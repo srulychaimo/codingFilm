@@ -70,3 +70,7 @@ body {
   border: 1px white;
   color: white;
 }
+
+.vh-80 {
+  min-height: 75vh;
+}

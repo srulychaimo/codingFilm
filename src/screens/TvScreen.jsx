@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Col, Form, Image, InputGroup, Row } from "react-bootstrap";
 import { useFormik } from "formik";
-import Message from "../components/common/Message";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
 const TvScreen = () => {
@@ -97,11 +96,6 @@ const TvScreen = () => {
               <p className="text-center text-white">{tvShow.name}</p>
             </Col>
           ))}
-          {!tvShows.length && (
-            <Col sm={10} md={5} lg={4}>
-              <Message variant="danger">No Tv Shows Found</Message>
-            </Col>
-          )}
         </Row>
         <Row className="justify-content-center py-3">
           <Col

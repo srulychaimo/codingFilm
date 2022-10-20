@@ -4,11 +4,15 @@ import "swiper/css/bundle";
 import { imageURL } from "../api/tmdbApi";
 import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { FaChevronRight } from "react-icons/fa";
 
 const SectionSlider = ({ data, title, navigateTo }) => {
   const navigate = useNavigate();
   const handleClick = (id) => {
-    navigate(`/${navigateTo}/${id}`);
+    if (id) {
+      return navigate(`/${navigateTo}/${id}`);
+    }
+    navigate(`/${navigateTo}`);
   };
 
   const breakpoints = {
@@ -32,8 +36,11 @@ const SectionSlider = ({ data, title, navigateTo }) => {
     },
   };
   return (
-    <div className="pt-4 px-3 bg-dark text-white">
-      <h3 className="mb-3">{title}</h3>
+    <div className="pt-1 px-3 bg-dark text-white">
+      <div className="d-flex align-items-center">
+        <h4 className="mb-3 mx-auto">{title}</h4>
+        <FaChevronRight className="mb-2" onClick={() => handleClick()} />
+      </div>
       <Swiper spaceBetween={10} breakpoints={breakpoints}>
         {data &&
           data.map((item) => {

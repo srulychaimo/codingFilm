@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
-import SingleHeroSlide from "./SingleHeroSlide";
 import "swiper/css";
 import "swiper/css/bundle";
 import { getFromTmdb } from "../../api/tmdbApi";
+import SingleHeroSlide from "./SingleHeroSlide";
 
 const HeroSlider = () => {
   const [movies, setMovies] = useState([]);
@@ -26,6 +26,7 @@ const HeroSlider = () => {
         disableOnInteraction: false,
       }}
       loop={true}
+      className="pb-4"
     >
       {movies.map((movie) => (
         <SwiperSlide key={movie.id}>

@@ -10,6 +10,5 @@ export const getFromTmdb = async ({ url, page, query }) => {
   }${query ? `&query=${query}` : ""}`;
 
   const { data } = await httpService.get(requestURL);
-
   return data;
 };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PlayTrailerButton from "../components/HeroSlider/PlayTrailerButton";
+import PlayTrailer from "../components/PlayTrailer";
 import { Col, Image, Row } from "react-bootstrap";
 import SectionSlider from "../components/SectionSlider";
 import ReactPlayer from "react-player/youtube";
@@ -68,7 +68,7 @@ const MovieScreen = () => {
               )}
               {info.movie.trailer && (
                 <div className="text-center">
-                  <PlayTrailerButton trailer={info.movie.trailer} />
+                  <PlayTrailer trailer={info.movie.trailer} />
                 </div>
               )}
             </Col>
