@@ -5,10 +5,13 @@ import { Col, Image, Row } from "react-bootstrap";
 import SectionSlider from "../components/SectionSlider";
 import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
+import { getWindowSize } from "../utils/screenSize";
+import classNames from "classnames";
 
 const DetailsScreen = ({ url, title }) => {
   const { id } = useParams();
   const [info, setInfo] = useState({});
+  const [windowSize, setWindowSize] = useState(getWindowSize());
 
   const backgroundImage = `${imageURL}${info.data?.backdrop_path}`;
   const posterImage = `${imageURL}${info.data?.poster_path}`;
@@ -42,23 +45,33 @@ const DetailsScreen = ({ url, title }) => {
     window.scrollTo(0, 0);
   }, [id, url]);
 
+  const handleWindowResize = () => {
+    setWindowSize(getWindowSize());
+  };
+  window.addEventListener("resize", handleWindowResize);
+
   return (
     <>
       {info.data && (
         <div
-          className="min-vh-100 py-5"
           style={{
-            background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), center url(${backgroundImage})`,
+            background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), center url(${
+              windowSize > 768 ? backgroundImage : posterImage
+            })`,
             backgroundSize: "cover",
           }}
         >
-          <Row className=" d-flex justify-content-center align-items-center text-white text-center min-vh-100 mx-5">
-            <Col md={7} lg={8}>
+          <Row
+            className={classNames(
+              "d-flex justify-content-center align-items-center text-white text-center",
+              windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
+            )}
+          >
+            <Col md={8} lg={6}>
               <h1>{info.data.title}</h1>
-              <p className="d-none d-md-block">{info.data.overview}</p>
+              <p>{info.data.overview}</p>
               {info.data.genres.length && (
-                <div className="d-none d-sm-block">
-                  <h4 className="px-3 d-inline">Genres:</h4>
+                <div>
                   {info.data.genres.map((obj) => (
                     <div key={obj.id} className="myButton m-2">
                       {obj.name}
@@ -73,7 +86,7 @@ const DetailsScreen = ({ url, title }) => {
               )}
             </Col>
 
-            <Col sm={6} md={5} lg={4} className="mt-3">
+            <Col sm={6} md={4} xl={3} className="d-none d-md-block mt-3">
               <Image
                 src={posterImage}
                 fluid
@@ -88,7 +101,7 @@ const DetailsScreen = ({ url, title }) => {
       <div>
         {info.videos?.length > 0 && (
           <Row className="pt-4 px-3 bg-dark text-white justify-content-center">
-            <h3 className="py-2">Videos</h3>
+            <h3 className="py-2 text-center">Videos</h3>
             {info.videos.splice(0, 2).map((video) => (
               <Col key={video.id} sm={10} md={6}>
                 <ReactPlayer

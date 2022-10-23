@@ -33,7 +33,7 @@ const SingleHeroSlide = ({ movie }) => {
           <Row
             className={classNames(
               "justify-content-center align-items-center text-white text-center",
-              windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-80"
+              windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
             )}
           >
             <Col md={8} lg={6}>
