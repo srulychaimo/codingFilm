@@ -17,12 +17,18 @@ function App() {
               path="/movies"
               element={<DiscoverScreen url="movie" title="Movies" />}
             />
-            <Route path="/movies/:id" element={<DetailsScreen url="movie" />} />
+            <Route
+              path="/movies/:id"
+              element={<DetailsScreen url="movie" title="Movies" />}
+            />
             <Route
               path="/tv"
               element={<DiscoverScreen url="tv" title="Tv Shows" />}
             />
-            <Route path="/tv/:id" element={<DetailsScreen url="tv" />} />
+            <Route
+              path="/tv/:id"
+              element={<DetailsScreen url="tv" title="Tv Shows" />}
+            />
           </Routes>
         </div>
         <Footer />

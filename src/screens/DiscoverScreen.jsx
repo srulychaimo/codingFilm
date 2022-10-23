@@ -27,6 +27,20 @@ const DiscoverScreen = ({ url, title }) => {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
+    const getData = async (activePage) => {
+      const { results } = await getFromTmdb({
+        url: `/discover/${url}`,
+        page: activePage,
+      });
+      setData([...results]);
+    };
+
+    getData(page);
+  }, [url]);
+
+  useEffect(() => {
     const getData = async (activePage) => {
       const { results } = await getFromTmdb({
         url: `/discover/${url}`,
@@ -36,7 +50,7 @@ const DiscoverScreen = ({ url, title }) => {
     };
 
     getData(page);
-  }, [page, url]);
+  }, [page]);
 
   const handleClick = (id) => {
     if (url === "movie") {

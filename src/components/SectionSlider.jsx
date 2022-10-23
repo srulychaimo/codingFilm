@@ -8,7 +8,14 @@ import { FaChevronRight } from "react-icons/fa";
 
 const SectionSlider = ({ data, title, navigateTo }) => {
   const navigate = useNavigate();
+
   const handleClick = (id) => {
+    if (title === "Casts") {
+      return;
+    }
+    if (navigateTo === "movie") {
+      navigateTo = "movies";
+    }
     if (id) {
       return navigate(`/${navigateTo}/${id}`);
     }

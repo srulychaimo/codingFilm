@@ -4,16 +4,18 @@ import SectionSlider from "../components/SectionSlider";
 import { getFromTmdb } from "../api/tmdbApi";
 
 const HomeScreen = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
 
   useEffect(() => {
-    const getPopularMovies = async () => {
+    const getData = async () => {
       const { results: popularMovies } = await getFromTmdb({
         url: "/movie/popular",
       });
+
       const { results: upcomingMovies } = await getFromTmdb({
         url: "/movie/upcoming",
       });
+
       const { results: topRatedMovies } = await getFromTmdb({
         url: "/movie/top_rated",
       });
@@ -31,7 +33,7 @@ const HomeScreen = () => {
         topRatedTv,
       });
     };
-    getPopularMovies();
+    getData();
   }, []);
 
   return (

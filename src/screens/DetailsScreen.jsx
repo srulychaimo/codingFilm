@@ -6,7 +6,7 @@ import SectionSlider from "../components/SectionSlider";
 import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
-const DetailsScreen = ({ url }) => {
+const DetailsScreen = ({ url, title }) => {
   const { id } = useParams();
   const [info, setInfo] = useState({});
 
@@ -40,7 +40,7 @@ const DetailsScreen = ({ url }) => {
     };
     getDetails();
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, url]);
 
   return (
     <>
@@ -112,16 +112,16 @@ const DetailsScreen = ({ url }) => {
         {info.similar?.length && (
           <SectionSlider
             data={info?.similar.filter((movie) => movie.poster_path)}
-            title="Similar Movies"
-            navigateTo="movies"
+            title={`Similar ${title}`}
+            navigateTo={`${url}`}
           />
         )}
 
         {info.recommendations?.length && (
           <SectionSlider
             data={info?.recommendations.filter((movie) => movie.poster_path)}
-            title="Recommendations Movies"
-            navigateTo="movies"
+            title={`Recommendations ${title}`}
+            navigateTo={`${url}`}
           />
         )}
       </div>
