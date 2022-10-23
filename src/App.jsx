@@ -2,10 +2,8 @@ import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
-import SingleMovieScreen from "./screens/SingleMovieScreen";
-import MoviesScreen from "./screens/MoviesScreen";
-import TvScreen from "./screens/TvScreen";
-import SingleTvScreen from "./screens/SingleTvScreen";
+import DiscoverScreen from "./screens/DiscoverScreen";
+import DetailsScreen from "./screens/DetailsScreen";
 
 function App() {
   return (
@@ -15,10 +13,16 @@ function App() {
         <div className="flex-fill bg-dark">
           <Routes>
             <Route path="/" element={<HomeScreen />} />
-            <Route path="/movies" element={<MoviesScreen />} />
-            <Route path="/movies/:id" element={<SingleMovieScreen />} />
-            <Route path="/tv" element={<TvScreen />} />
-            <Route path="/tv/:id" element={<SingleTvScreen />} />
+            <Route
+              path="/movies"
+              element={<DiscoverScreen url="movie" title="Movies" />}
+            />
+            <Route path="/movies/:id" element={<DetailsScreen url="movie" />} />
+            <Route
+              path="/tv"
+              element={<DiscoverScreen url="tv" title="Tv Shows" />}
+            />
+            <Route path="/tv/:id" element={<DetailsScreen url="tv" />} />
           </Routes>
         </div>
         <Footer />

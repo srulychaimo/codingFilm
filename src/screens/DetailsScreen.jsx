@@ -6,32 +6,32 @@ import SectionSlider from "../components/SectionSlider";
 import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
-const MovieScreen = () => {
+const DetailsScreen = ({ url }) => {
   const { id } = useParams();
   const [info, setInfo] = useState({});
 
-  const backgroundImage = `${imageURL}${info.movie?.backdrop_path}`;
-  const posterImage = `${imageURL}${info.movie?.poster_path}`;
+  const backgroundImage = `${imageURL}${info.data?.backdrop_path}`;
+  const posterImage = `${imageURL}${info.data?.poster_path}`;
   const youTubeBaseURL = "http://www.youtube.com/watch?v=";
 
   useEffect(() => {
     const getDetails = async () => {
-      const res = await getFromTmdb({ url: `/movie/${id}` });
+      const res = await getFromTmdb({ url: `/${url}/${id}` });
       const { results: videos } = await getFromTmdb({
-        url: `/movie/${id}/videos`,
+        url: `/${url}/${id}/videos`,
       });
       const trailer = videos.filter((obj) => obj?.type === "Trailer");
       res.trailer = trailer[0]?.key;
-      const { cast } = await getFromTmdb({ url: `/movie/${id}/credits` });
+      const { cast } = await getFromTmdb({ url: `/${url}/${id}/credits` });
       const { results: similar } = await getFromTmdb({
-        url: `/movie/${id}/similar`,
+        url: `/${url}/${id}/similar`,
       });
       const { results: recommendations } = await getFromTmdb({
-        url: `/movie/${id}/recommendations`,
+        url: `/${url}/${id}/recommendations`,
       });
 
       setInfo({
-        movie: res,
+        data: res,
         videos,
         cast,
         similar,
@@ -44,7 +44,7 @@ const MovieScreen = () => {
 
   return (
     <>
-      {info.movie && (
+      {info.data && (
         <div
           className="min-vh-100 py-5"
           style={{
@@ -54,21 +54,21 @@ const MovieScreen = () => {
         >
           <Row className=" d-flex justify-content-center align-items-center text-white text-center min-vh-100 mx-5">
             <Col md={7} lg={8}>
-              <h1>{info.movie.title}</h1>
-              <p className="d-none d-md-block">{info.movie.overview}</p>
-              {info.movie.genres.length && (
+              <h1>{info.data.title}</h1>
+              <p className="d-none d-md-block">{info.data.overview}</p>
+              {info.data.genres.length && (
                 <div className="d-none d-sm-block">
                   <h4 className="px-3 d-inline">Genres:</h4>
-                  {info.movie.genres.map((obj) => (
+                  {info.data.genres.map((obj) => (
                     <div key={obj.id} className="myButton m-2">
                       {obj.name}
                     </div>
                   ))}
                 </div>
               )}
-              {info.movie.trailer && (
+              {info.data.trailer && (
                 <div className="text-center">
-                  <PlayTrailer trailer={info.movie.trailer} />
+                  <PlayTrailer trailer={info.data.trailer} />
                 </div>
               )}
             </Col>
@@ -129,4 +129,4 @@ const MovieScreen = () => {
   );
 };
 
-export default MovieScreen;
+export default DetailsScreen;

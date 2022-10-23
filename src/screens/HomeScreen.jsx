@@ -36,9 +36,9 @@ const HomeScreen = () => {
 
   return (
     <>
-      <HeroSlider />
       {data.popularMovies && (
         <>
+          <HeroSlider movies={data?.popularMovies} />
           <SectionSlider
             data={data?.popularMovies}
             title="Popular Movies"

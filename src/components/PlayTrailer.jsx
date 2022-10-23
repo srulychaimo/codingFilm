@@ -9,16 +9,20 @@ const PlayTrailer = ({ id, sm }) => {
   const [trailer, setTrailer] = useState("");
 
   useEffect(() => {
-    const getTrailer = async (id) => {
-      let { results } = await getFromTmdb({ url: `/movie/${id}/videos` });
-      const checkForTrailer = results.find((obj) => obj?.type === "Trailer");
-      if (checkForTrailer) {
-        results = checkForTrailer;
-        return setTrailer(`http://www.youtube.com/watch?v=${results?.key}`);
-      }
-      setTrailer(`http://www.youtube.com/watch?v=${results[0]?.key}`);
-    };
-    getTrailer(id);
+    try {
+      const getTrailer = async (id) => {
+        let { results } = await getFromTmdb({ url: `/movie/${id}/videos` });
+
+        const checkForTrailer = results.find((obj) => obj?.type === "Trailer");
+        if (checkForTrailer) {
+          results = checkForTrailer;
+          setTrailer(`http://www.youtube.com/watch?v=${results?.key}`);
+        }
+      };
+      getTrailer(id);
+    } catch (error) {
+      console.log(error);
+    }
   }, [id]);
 
   const playVideo = () => {

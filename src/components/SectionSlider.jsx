@@ -39,7 +39,9 @@ const SectionSlider = ({ data, title, navigateTo }) => {
     <div className="pt-1 px-3 bg-dark text-white">
       <div className="d-flex align-items-center">
         <h4 className="mb-3 mx-auto">{title}</h4>
-        <FaChevronRight className="mb-2" onClick={() => handleClick()} />
+        {title !== "Casts" && (
+          <FaChevronRight className="mb-2" onClick={() => handleClick()} />
+        )}
       </div>
       <Swiper spaceBetween={10} breakpoints={breakpoints}>
         {data &&

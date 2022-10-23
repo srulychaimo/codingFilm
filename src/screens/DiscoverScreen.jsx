@@ -4,8 +4,8 @@ import { Button, Col, Form, Image, InputGroup, Row } from "react-bootstrap";
 import { useFormik } from "formik";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 
-const TvScreen = () => {
-  const [tvShows, setTvShows] = useState([]);
+const DiscoverScreen = ({ url, title }) => {
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
 
   const navigate = useNavigate();
@@ -17,29 +17,32 @@ const TvScreen = () => {
     onSubmit: ({ inputValue }) => {
       const getSearched = async (query) => {
         const { results } = await getFromTmdb({
-          url: "/search/tv",
+          url: `/search/${url}`,
           query: query,
         });
-        setTvShows(results);
+        setData(results);
       };
       getSearched(inputValue);
     },
   });
 
   useEffect(() => {
-    const getTvShows = async (activePage) => {
+    const getData = async (activePage) => {
       const { results } = await getFromTmdb({
-        url: "/discover/tv",
+        url: `/discover/${url}`,
         page: activePage,
       });
-      setTvShows([...tvShows, ...results]);
+      setData([...data, ...results]);
     };
 
-    getTvShows(page);
-  }, [page]);
+    getData(page);
+  }, [page, url]);
 
   const handleClick = (id) => {
-    navigate(`/tv/${id}`);
+    if (url === "movie") {
+      return navigate(`/movies/${id}`);
+    }
+    navigate(`/${url}/${id}`);
   };
 
   const handleLoadMore = () => {
@@ -56,7 +59,7 @@ const TvScreen = () => {
           backgroundSize: "cover",
         }}
       >
-        <h2>Tv Shows</h2>
+        <h2>{title}</h2>
       </div>
       <div className="bg-dark px-3">
         <Row className="justify-content-center">
@@ -65,7 +68,7 @@ const TvScreen = () => {
               <InputGroup className="p-3">
                 <Form.Control
                   {...form.getFieldProps("inputValue")}
-                  placeholder="Tv Show Name"
+                  placeholder={`${title} Name`}
                 />
                 <Button
                   variant="outline-secondary"
@@ -79,21 +82,21 @@ const TvScreen = () => {
           </Col>
         </Row>
         <Row className="justify-content-center py-5">
-          {tvShows.map((tvShow) => (
+          {data.map((data) => (
             <Col
-              key={tvShow?.id}
+              key={data?.id}
               xs={6}
               sm={4}
               md={3}
               lg={2}
-              onClick={() => handleClick(tvShow.id)}
+              onClick={() => handleClick(data?.id)}
             >
               <Image
-                src={`${imageURL}${tvShow?.poster_path}`}
-                alt={tvShow.name}
+                src={`${imageURL}${data?.poster_path}`}
+                alt={data.name}
                 fluid
               />
-              <p className="text-center text-white">{tvShow.name}</p>
+              <p className="text-center text-white">{data.name}</p>
             </Col>
           ))}
         </Row>
@@ -101,10 +104,10 @@ const TvScreen = () => {
           <Col
             sm={6}
             md={4}
-            className="btn text-white"
+            className="btn text-white mx-auto"
             onClick={handleLoadMore}
           >
-            Load More Tv Shows
+            Load More {title}
           </Col>
         </Row>
       </div>
@@ -112,4 +115,4 @@ const TvScreen = () => {
   );
 };
 
-export default TvScreen;
+export default DiscoverScreen;
