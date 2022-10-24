@@ -2,6 +2,7 @@ import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 import { BsTelephone } from "react-icons/bs";
+import "../style/footer.css";
 
 const Footer = () => {
   return (
@@ -14,7 +15,7 @@ const Footer = () => {
       }}
     >
       <p className="contact-links">
-        <a href="tel:+9726573553" target="_blank">
+        <a href="tel:+972526573553" target="_blank">
           <BsTelephone />
         </a>
         <a href="mailto:websruly@gmail.com" target="_blank">

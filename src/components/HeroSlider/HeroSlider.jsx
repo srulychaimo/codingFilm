@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
+import SingleHeroSlide from "./SingleHeroSlide";
 import "swiper/css";
 import "swiper/css/bundle";
-import SingleHeroSlide from "./SingleHeroSlide";
 
 const HeroSlider = ({ movies }) => {
   return (

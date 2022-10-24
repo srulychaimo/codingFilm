@@ -1,0 +1,41 @@
+.btn {
+  font-weight: 0;
+  font-size: 15px;
+  color: #fff;
+  background-color: #db0000;
+  padding: 0.45rem 0.8rem;
+  border: solid #db0000 2px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 50px;
+  transition: 1000ms;
+  transform: translateY(0);
+}
+
+.btn:hover {
+  transition: 1000ms;
+  padding: 0.8rem 1.2rem;
+  transform: translateY(-0px);
+  background-color: #fff;
+  color: #db0000;
+  border: solid 2px #db0000;
+}
+
+.myButton {
+  background-color: rgba(0, 0, 0, 0.541);
+  border-radius: 20px;
+  border: 2px solid #ffffff;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  padding: 5px 15px;
+  text-decoration: none;
+}
+.myButton:hover {
+  background-color: #db0000;
+}
+.myButton:active {
+  position: relative;
+  top: 1px;
+}

@@ -23,8 +23,6 @@ const DetailsScreen = ({ url, title }) => {
       const { results: videos } = await getFromTmdb({
         url: `/${url}/${id}/videos`,
       });
-      const trailer = videos.filter((obj) => obj?.type === "Trailer");
-      res.trailer = trailer[0]?.key;
       const { cast } = await getFromTmdb({ url: `/${url}/${id}/credits` });
       const { results: similar } = await getFromTmdb({
         url: `/${url}/${id}/similar`,
@@ -59,6 +57,7 @@ const DetailsScreen = ({ url, title }) => {
               windowSize > 768 ? backgroundImage : posterImage
             })`,
             backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           <Row
@@ -79,9 +78,9 @@ const DetailsScreen = ({ url, title }) => {
                   ))}
                 </div>
               )}
-              {info.data.trailer && (
+              {info.data && (
                 <div className="text-center">
-                  <PlayTrailer trailer={info.data.trailer} />
+                  <PlayTrailer id={info.data.id} />
                 </div>
               )}
             </Col>

@@ -1,0 +1,5 @@
+.contact-links > * {
+  padding-inline: 1vw;
+  border: 1px white;
+  color: white;
+}

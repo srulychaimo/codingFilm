@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
-import PlayTrailer from "../PlayTrailer";
 import { Link } from "react-router-dom";
 import { BiMoviePlay } from "react-icons/bi";
 import { imageURL } from "../../api/tmdbApi";
 import { getWindowSize } from "../../utils/screenSize.js";
 import classNames from "classnames";
+import PlayTrailer from "../PlayTrailer";
+import "../../style/buttons.css";
 
 const SingleHeroSlide = ({ movie }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -28,6 +29,7 @@ const SingleHeroSlide = ({ movie }) => {
               windowSize > 768 ? backgroundImage : posterImage
             })`,
             backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           <Row
@@ -37,12 +39,15 @@ const SingleHeroSlide = ({ movie }) => {
             )}
           >
             <Col md={8} lg={6}>
-              <h1>{movie?.title}</h1>
+              <h1 className="text-animation">{movie?.title}</h1>
               <p>{movie?.overview}</p>
               <Link to={`/movies/${movie?.id}`} className="btn mt-3 mx-2">
                 <BiMoviePlay /> Movie Details
               </Link>
-              <PlayTrailer id={movie.id} sm={windowSize < 768 ? true : false} />
+              <PlayTrailer
+                id={movie?.id}
+                sm={windowSize < 768 ? true : false}
+              />
             </Col>
 
             <Col sm={6} md={4} xl={3} className="d-none d-md-block">

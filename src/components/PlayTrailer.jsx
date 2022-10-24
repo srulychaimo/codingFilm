@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { BsFillPlayCircleFill } from "react-icons/bs";
-import ReactPlayer from "react-player";
 import { getFromTmdb } from "../api/tmdbApi";
+import ReactPlayer from "react-player";
+import "../style/playTrailer.css";
 
 const PlayTrailer = ({ id, sm }) => {
   const [showVideo, setShowVideo] = useState(false);
@@ -13,11 +14,9 @@ const PlayTrailer = ({ id, sm }) => {
       const getTrailer = async (id) => {
         let { results } = await getFromTmdb({ url: `/movie/${id}/videos` });
 
-        const checkForTrailer = results.find((obj) => obj?.type === "Trailer");
-        if (checkForTrailer) {
-          results = checkForTrailer;
-          setTrailer(`http://www.youtube.com/watch?v=${results?.key}`);
-        }
+        results = results.find((obj) => obj?.type === "Trailer");
+
+        setTrailer(`http://www.youtube.com/watch?v=${results?.key}`);
       };
       getTrailer(id);
     } catch (error) {

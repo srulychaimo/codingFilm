@@ -1,6 +1,6 @@
-import { GiFilmSpool } from "react-icons/gi";
-import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import { GiFilmSpool } from "react-icons/gi";
 
 const Navbar = () => {
   const [navBgColor, setNavBgColor] = useState("");

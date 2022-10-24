@@ -46,7 +46,8 @@ const DiscoverScreen = ({ url, title }) => {
         url: `/discover/${url}`,
         page: activePage,
       });
-      setData([...data, ...results]);
+
+      return setData([...data, ...results]);
     };
 
     getData(page);
@@ -66,7 +67,7 @@ const DiscoverScreen = ({ url, title }) => {
   return (
     <>
       <div
-        className="movie-header d-flex justify-content-center align-items-center text-white"
+        className="discover-header d-flex justify-content-center align-items-center text-white"
         style={{
           background:
             'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), center url("https://craft-magazine.com/wp-content/uploads/2020/06/best-tv-shows-1.jpg")',
