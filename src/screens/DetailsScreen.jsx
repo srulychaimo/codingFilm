@@ -92,7 +92,7 @@ const DetailsScreen = ({ url, title }) => {
                   )}
                   {info.data && (
                     <div className="text-center">
-                      <PlayTrailer id={info.data.id} />
+                      <PlayTrailer id={info.data.id} sm={windowSize < 768} />
                     </div>
                   )}
                 </>

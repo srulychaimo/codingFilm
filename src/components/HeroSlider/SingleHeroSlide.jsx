@@ -45,9 +45,8 @@ const SingleHeroSlide = ({ movie }) => {
               "justify-content-center align-items-center text-white text-center",
               windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
             )}
-            ref={ref}
           >
-            <Col md={8} lg={6}>
+            <Col md={8} lg={6} ref={ref}>
               {isVisible && (
                 <>
                   <h1 className="slideInDown">{movie?.title}</h1>
