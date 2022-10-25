@@ -70,7 +70,7 @@ const DiscoverScreen = ({ url, title }) => {
         className="discover-header d-flex justify-content-center align-items-center text-white"
         style={{
           background:
-            'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), center url("https://craft-magazine.com/wp-content/uploads/2020/06/best-tv-shows-1.jpg")',
+            'linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), center url("https://i.imgur.com/gQz4ijq.png")',
           backgroundSize: "cover",
         }}
       >
@@ -110,6 +110,7 @@ const DiscoverScreen = ({ url, title }) => {
                 src={`${imageURL}${data?.poster_path}`}
                 alt={data.name}
                 fluid
+                rounded
               />
               <p className="text-center text-white">{data.name}</p>
             </Col>

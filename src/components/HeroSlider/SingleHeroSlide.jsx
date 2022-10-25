@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { BiMoviePlay } from "react-icons/bi";
 import { imageURL } from "../../api/tmdbApi";
 import { getWindowSize } from "../../utils/screenSize.js";
+import { useOnScreenElement } from "../../utils/useOnScreen";
+
 import classNames from "classnames";
 import PlayTrailer from "../PlayTrailer";
 import "../../style/buttons.css";
@@ -18,6 +20,12 @@ const SingleHeroSlide = ({ movie }) => {
     setWindowSize(getWindowSize());
   };
   window.addEventListener("resize", handleWindowResize);
+
+  const [ref, isVisible] = useOnScreenElement({
+    root: null,
+    rootMargin: "0px",
+    threshold: 1.0,
+  });
 
   return (
     <>
@@ -37,17 +45,25 @@ const SingleHeroSlide = ({ movie }) => {
               "justify-content-center align-items-center text-white text-center",
               windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
             )}
+            ref={ref}
           >
             <Col md={8} lg={6}>
-              <h1 className="text-animation">{movie?.title}</h1>
-              <p>{movie?.overview}</p>
-              <Link to={`/movies/${movie?.id}`} className="btn mt-3 mx-2">
-                <BiMoviePlay /> Movie Details
-              </Link>
-              <PlayTrailer
-                id={movie?.id}
-                sm={windowSize < 768 ? true : false}
-              />
+              {isVisible && (
+                <>
+                  <h1 className="slideInDown">{movie?.title}</h1>
+                  <p className="slideInDown">{movie?.overview}</p>
+                  <Link
+                    to={`/movies/${movie?.id}`}
+                    className="btn mt-3 mx-2 slideInDown"
+                  >
+                    <BiMoviePlay /> Movie Details
+                  </Link>
+                  <PlayTrailer
+                    id={movie?.id}
+                    sm={windowSize < 768 ? true : false}
+                  />
+                </>
+              )}
             </Col>
 
             <Col sm={6} md={4} xl={3} className="d-none d-md-block">
@@ -64,5 +80,4 @@ const SingleHeroSlide = ({ movie }) => {
     </>
   );
 };
-
 export default SingleHeroSlide;

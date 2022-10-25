@@ -7,6 +7,7 @@ import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 import { getWindowSize } from "../utils/screenSize";
 import classNames from "classnames";
+import { useOnScreenElement } from "../utils/useOnScreen";
 
 const DetailsScreen = ({ url, title }) => {
   const { id } = useParams();
@@ -48,6 +49,12 @@ const DetailsScreen = ({ url, title }) => {
   };
   window.addEventListener("resize", handleWindowResize);
 
+  const [ref, isVisible] = useOnScreenElement({
+    root: null,
+    rootMargin: "0px",
+    threshold: 1.0,
+  });
+
   return (
     <>
       {info.data && (
@@ -65,23 +72,30 @@ const DetailsScreen = ({ url, title }) => {
               "d-flex justify-content-center align-items-center text-white text-center",
               windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
             )}
+            ref={ref}
           >
             <Col md={8} lg={6}>
-              <h1>{info.data.title}</h1>
-              <p>{info.data.overview}</p>
-              {info.data.genres.length && (
-                <div>
-                  {info.data.genres.map((obj) => (
-                    <div key={obj.id} className="myButton m-2">
-                      {obj.name}
+              {isVisible && (
+                <>
+                  <h1 className="slideInDown">
+                    {info.data.title || info.data.name}
+                  </h1>
+                  <p className="slideInDown">{info.data.overview}</p>
+                  {info.data.genres.length && (
+                    <div>
+                      {info.data.genres.map((obj) => (
+                        <div key={obj.id} className="myButton m-2 slideInDown">
+                          {obj.name}
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
-              )}
-              {info.data && (
-                <div className="text-center">
-                  <PlayTrailer id={info.data.id} />
-                </div>
+                  )}
+                  {info.data && (
+                    <div className="text-center">
+                      <PlayTrailer id={info.data.id} />
+                    </div>
+                  )}
+                </>
               )}
             </Col>
 
@@ -99,7 +113,7 @@ const DetailsScreen = ({ url, title }) => {
 
       <div>
         {info.videos?.length > 0 && (
-          <Row className="pt-4 px-3 bg-dark text-white justify-content-center">
+          <Row className="pt-4 px-2 bg-dark text-white justify-content-center mw-100">
             <h3 className="py-2 text-center">Videos</h3>
             {info.videos.splice(0, 2).map((video) => (
               <Col key={video.id} sm={10} md={6}>

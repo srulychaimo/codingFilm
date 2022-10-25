@@ -5,3 +5,18 @@
 .vh-75 {
   min-height: 75vh;
 }
+.slideInDown {
+  animation-name: slideInDown;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+}
+
+@keyframes slideInDown {
+  0% {
+    transform: translateY(-1000%);
+    visibility: visible;
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

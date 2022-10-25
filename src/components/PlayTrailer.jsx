@@ -9,6 +9,8 @@ const PlayTrailer = ({ id, sm }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [trailer, setTrailer] = useState("");
 
+  const host = window.location.host;
+
   useEffect(() => {
     try {
       const getTrailer = async (id) => {
@@ -16,7 +18,9 @@ const PlayTrailer = ({ id, sm }) => {
 
         results = results.find((obj) => obj?.type === "Trailer");
 
-        setTrailer(`http://www.youtube.com/watch?v=${results?.key}`);
+        setTrailer(
+          `http://www.youtube.com/watch?v=${results?.key}&origin=${host}`
+        );
       };
       getTrailer(id);
     } catch (error) {
@@ -30,7 +34,7 @@ const PlayTrailer = ({ id, sm }) => {
 
   return (
     <>
-      <button className="btn mt-3" onClick={playVideo}>
+      <button className="btn mt-3 slideInDown" onClick={playVideo}>
         <BsFillPlayCircleFill /> Play Trailer
       </button>
 
