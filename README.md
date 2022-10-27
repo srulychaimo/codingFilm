@@ -15,3 +15,7 @@ This project is a movie app, which pulls real data from the TMDB Api.
 ## Live Demo
 
 https://srulycodingfilm.netlify.app/
+
+## Images
+
+![alt text](https://ibb.co/rckd4jS)
