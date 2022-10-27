@@ -1,3 +1,4 @@
+// Imports icons & style
 import { AiFillLinkedin, AiFillGithub } from "react-icons/ai";
 import { FaWhatsapp } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
@@ -6,6 +7,7 @@ import "../style/footer.css";
 
 const Footer = () => {
   return (
+    // footer background image with opacity 0.8.
     <div
       className="footer bg-dark text-white text-center py-5"
       style={{
@@ -14,6 +16,7 @@ const Footer = () => {
         backgroundSize: "cover",
       }}
     >
+      {/* Contact footer links & icons. */}
       <p className="contact-links">
         <a href="tel:+972526573553" target="_blank">
           <BsTelephone />

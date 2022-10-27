@@ -1,12 +1,16 @@
+// Imports of react hooks & fn to fetch data & components
 import { useEffect, useState } from "react";
+import { getFromTmdb } from "../api/tmdbApi";
 import HeroSlider from "../components/HeroSlider/HeroSlider";
 import SectionSlider from "../components/SectionSlider";
-import { getFromTmdb } from "../api/tmdbApi";
 
 const HomeScreen = () => {
+  // Saving all data in a state.
   const [data, setData] = useState({});
 
+  // useEffect will run on componentDidMount.
   useEffect(() => {
+    // this is a async function to fetch all data and saving it in the data state.
     const getData = async () => {
       const { results: popularMovies } = await getFromTmdb({
         url: "/movie/popular",
@@ -33,14 +37,19 @@ const HomeScreen = () => {
         topRatedTv,
       });
     };
+
+    // Activates the function
     getData();
   }, []);
 
   return (
     <>
+      {/* Show only after useEffect will run */}
       {data.popularMovies && (
         <>
+          {/* Main slider component & section components */}
           <HeroSlider movies={data?.popularMovies} />
+
           <SectionSlider
             data={data?.popularMovies}
             title="Popular Movies"

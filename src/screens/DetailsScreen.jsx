@@ -1,23 +1,29 @@
+// Imports
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import PlayTrailer from "../components/PlayTrailer";
 import { Col, Image, Row } from "react-bootstrap";
-import SectionSlider from "../components/SectionSlider";
-import ReactPlayer from "react-player/youtube";
 import { getFromTmdb, imageURL } from "../api/tmdbApi";
 import { getWindowSize } from "../utils/screenSize";
+import PlayTrailer from "../components/PlayTrailer";
+import SectionSlider from "../components/SectionSlider";
+import ReactPlayer from "react-player/youtube";
 import classNames from "classnames";
-import { useOnScreenElement } from "../utils/useOnScreen";
 
+// Details screen component gets the url movie/tv to fetch data & the id from the params, & shows all data details.
 const DetailsScreen = ({ url, title }) => {
-  const { id } = useParams();
+  // State for all movie/tvShow info & windowSize.
   const [info, setInfo] = useState({});
-  const [windowSize, setWindowSize] = useState(getWindowSize());
+  const windowSize = getWindowSize();
 
+  // Getting the id from params.
+  const { id } = useParams();
+
+  // Basic imageUrl & youtubeUrl.
   const backgroundImage = `${imageURL}${info.data?.backdrop_path}`;
   const posterImage = `${imageURL}${info.data?.poster_path}`;
-  const youTubeBaseURL = "http://www.youtube.com/watch?v=";
+  const youTubeBaseURL = "http://www.youtube.com/embed/";
 
+  // useEffect will run on componentDidMount & when id or url changes, that fetches all data for the movie/tvShow of the id & sets all data in info state.
   useEffect(() => {
     const getDetails = async () => {
       const res = await getFromTmdb({ url: `/${url}/${id}` });
@@ -41,22 +47,15 @@ const DetailsScreen = ({ url, title }) => {
       });
     };
     getDetails();
+
+    // scroll up to top of page when useEffect runs.
     window.scrollTo(0, 0);
   }, [id, url]);
 
-  const handleWindowResize = () => {
-    setWindowSize(getWindowSize());
-  };
-  window.addEventListener("resize", handleWindowResize);
-
-  const [ref, isVisible] = useOnScreenElement({
-    root: null,
-    rootMargin: "0px",
-    threshold: 1.0,
-  });
-
   return (
     <>
+      {/* Show the data only after there is with styling. */}
+
       {info.data && (
         <div
           style={{
@@ -72,33 +71,33 @@ const DetailsScreen = ({ url, title }) => {
               "d-flex justify-content-center align-items-center text-white text-center",
               windowSize > 768 ? "min-vh-100 mx-5" : "mx-1 vh-75"
             )}
-            ref={ref}
           >
             <Col md={8} lg={6}>
-              {isVisible && (
-                <>
-                  <h1 className="slideInDown">
-                    {info.data.title || info.data.name}
-                  </h1>
-                  <p className="slideInDown">{info.data.overview}</p>
-                  {info.data.genres.length && (
-                    <div>
-                      {info.data.genres.map((obj) => (
-                        <div key={obj.id} className="myButton m-2 slideInDown">
-                          {obj.name}
-                        </div>
-                      ))}
+              <h1 className="slideInDown">
+                {info.data.title || info.data.name}
+              </h1>
+              <p className="slideInDown">{info.data.overview}</p>
+              {info.data.genres.length && (
+                <div>
+                  {info.data.genres.map((obj) => (
+                    <div key={obj.id} className="myButton m-2 slideInDown">
+                      {obj.name}
                     </div>
-                  )}
-                  {info.data && (
-                    <div className="text-center">
-                      <PlayTrailer id={info.data.id} sm={windowSize < 768} />
-                    </div>
-                  )}
-                </>
+                  ))}
+                </div>
+              )}
+              {info.data && (
+                <div className="text-center">
+                  <PlayTrailer
+                    id={info.data.id}
+                    sm={windowSize < 768}
+                    url={url}
+                  />
+                </div>
               )}
             </Col>
 
+            {/* Poster image only on lg screen */}
             <Col sm={6} md={4} xl={3} className="d-none d-md-block mt-3">
               <Image
                 src={posterImage}
@@ -112,8 +111,9 @@ const DetailsScreen = ({ url, title }) => {
       )}
 
       <div>
+        {/* Show videos only if there is max 2 videos. */}
         {info.videos?.length > 0 && (
-          <Row className="pt-4 px-2 bg-dark text-white justify-content-center mw-100">
+          <Row className="py-4 px-2 bg-dark text-white justify-content-center">
             <h3 className="py-2 text-center">Videos</h3>
             {info.videos.splice(0, 2).map((video) => (
               <Col key={video.id} sm={10} md={6}>
@@ -122,11 +122,14 @@ const DetailsScreen = ({ url, title }) => {
                   controls
                   width="100%"
                 />
+
                 <p className="text-center">{video.name}</p>
               </Col>
             ))}
           </Row>
         )}
+
+        {/* Show sliders for cast similar & recommendations only if there is value with poster image.  */}
 
         {info.cast?.length && (
           <SectionSlider

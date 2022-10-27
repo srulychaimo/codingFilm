@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .discover-header {
   min-height: 30vh;
 }
@@ -5,6 +9,7 @@
 .vh-75 {
   min-height: 75vh;
 }
+
 .slideInDown {
   animation-name: slideInDown;
   animation-duration: 2s;

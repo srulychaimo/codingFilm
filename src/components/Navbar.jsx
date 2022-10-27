@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { GiFilmSpool } from "react-icons/gi";
 
+// bootstrap navbar component
 const Navbar = () => {
+  // state for bg color
   const [navBgColor, setNavBgColor] = useState("");
 
   const listenScrollEvent = () => {
@@ -11,11 +13,13 @@ const Navbar = () => {
       : setNavBgColor("transparent");
   };
 
+  // will run on componentDidMount & add a scroll event to change bg color of navbar.
   useEffect(() => {
     window.addEventListener("scroll", listenScrollEvent);
   }, []);
 
   return (
+    // navbar with navLinks & setting bgColor with fade transition.
     <nav
       className="navbar navbar-expand-md navbar-dark fixed-top"
       style={{

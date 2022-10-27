@@ -1,9 +1,10 @@
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+// Importing basic routes & components
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomeScreen from "./screens/HomeScreen";
 import DiscoverScreen from "./screens/DiscoverScreen";
 import DetailsScreen from "./screens/DetailsScreen";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <div className="App d-flex flex-column min-vh-100">
         <Navbar />
         <div className="flex-fill bg-dark">
+          {/* Getting other components by route */}
           <Routes>
             <Route path="/" element={<HomeScreen />} />
             <Route

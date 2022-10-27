@@ -1,3 +1,4 @@
+// Imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/bundle";
@@ -6,9 +7,12 @@ import { Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa";
 
+// The sectionSlider component receives the data to show on slider & title & navigate url.
 const SectionSlider = ({ data, title, navigateTo }) => {
+  // Using the useNavigate hook of react-router to navigate.
   const navigate = useNavigate();
 
+  // Handle click function that will navigate the user onClick depending on where he clicks.
   const handleClick = (id) => {
     if (title === "Casts") {
       return;
@@ -22,6 +26,7 @@ const SectionSlider = ({ data, title, navigateTo }) => {
     navigate(`/${navigateTo}`);
   };
 
+  // Breakpoints object for showing slidesPerView changing on screen size changes.
   const breakpoints = {
     300: {
       slidesPerView: 2.5,
@@ -42,8 +47,10 @@ const SectionSlider = ({ data, title, navigateTo }) => {
       slidesPerView: 7,
     },
   };
+
   return (
-    <div className="pt-1 px-3 bg-dark text-white">
+    // Swiper slider with title and > icon for view more.
+    <div className="pt-2 px-3 bg-dark text-white">
       <div className="d-flex align-items-center">
         <h4 className="mb-3 mx-auto">{title}</h4>
         {title !== "Casts" && (
