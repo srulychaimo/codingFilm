@@ -18,4 +18,5 @@ https://srulycodingfilm.netlify.app/
 
 ## Images
 
-![alt text](https://i.postimg.cc/nhxF8xZG/scrnli-27-10-2022-12-28-09.png)
+![alt text](https://i.postimg.cc/9FW8sgKq/scrnli-27-10-2022-12-28-09.png)
+![alt text](https://i.postimg.cc/WpBVcVjf/scrnli-27-10-2022-12-39-30.png)
